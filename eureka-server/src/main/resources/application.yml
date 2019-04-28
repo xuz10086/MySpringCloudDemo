@@ -1,5 +1,8 @@
 server:
   port: 1111
+spring:
+  application:
+    name: eureka-server
 # 默认下，该服务中心(DemoApplication)会将自己作为客户端注册它自己，这里我们禁止这种注册行为
 eureka:
   instance:
