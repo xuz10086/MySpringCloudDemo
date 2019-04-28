@@ -1,0 +1,20 @@
+server:
+  port: 3333
+spring:
+  application:
+    name: gateway-server
+
+# routes to serviceId
+zuul:
+  routes:
+    eureka-product-client:
+      path: /eureka-product-client/**
+      serviceId: eureka-product-client
+    baidu:
+      path: /baidu/**
+      url: http://www.baidu.com
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
