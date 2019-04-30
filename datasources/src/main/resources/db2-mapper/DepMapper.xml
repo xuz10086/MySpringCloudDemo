@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuz.db2.mapper.DepMapper">
+  <resultMap id="BaseResultMap" type="com.xuz.db2.pojo.Dep">
+    <id column="L_DEP_ID" jdbcType="INTEGER" property="lDepId"/>
+    <result column="VC_DEP_NAME" jdbcType="VARCHAR" property="vcDepName"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    L_DEP_ID, VC_DEP_NAME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List"/>
+    from T_B02_DEP
+    where L_DEP_ID = #{lDepId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from T_B02_DEP
+    where L_DEP_ID = #{lDepId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.xuz.db2.pojo.Dep">
+    insert into T_B02_DEP(VC_DEP_NAME) values(#{vcDepName})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.xuz.db2.pojo.Dep">
+    insert into T_B02_DEP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lDepId != null">
+        L_DEP_ID,
+      </if>
+      <if test="vcDepName != null">
+        VC_DEP_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lDepId != null">
+        #{lDepId,jdbcType=INTEGER},
+      </if>
+      <if test="vcDepName != null">
+        #{vcDepName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.xuz.db2.pojo.Dep">
+    update T_B02_DEP
+    <set>
+      <if test="vcDepName != null">
+        VC_DEP_NAME = #{vcDepName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where L_DEP_ID = #{lDepId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.xuz.db2.pojo.Dep">
+    update T_B02_DEP
+    set VC_DEP_NAME = #{vcDepName,jdbcType=VARCHAR}
+    where L_DEP_ID = #{lDepId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuz.db1.mapper.UserMapper">
+
+  <resultMap id="BaseResultMap" type="com.xuz.db1.pojo.User">
+    <id column="L_USER_ID" property="lUserId" jdbcType="INTEGER"/>
+    <result column="VC_USER_NAME" property="vcUserName" jdbcType="VARCHAR"/>
+    <result column="VC_USER_PASSWORD" property="vcUserPassword" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    L_USER_ID, VC_USER_NAME, VC_USER_PASSWORD
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List"/>
+    from T_B01_USER
+    where L_USER_ID = #{lUserId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from T_B01_USER
+    where L_USER_ID = #{lUserId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.xuz.db1.pojo.User">
+    <selectKey resultType="java.lang.Integer" keyProperty="lUserId" order="BEFORE">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into T_B01_USER (L_USER_ID, VC_USER_NAME, VC_USER_PASSWORD
+      )
+    values (#{lUserId,jdbcType=INTEGER}, #{vcUserName,jdbcType=VARCHAR}, #{vcUserPassword,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.xuz.db1.pojo.User">
+    insert into T_B01_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vcUserName != null" >
+        VC_USER_NAME,
+      </if>
+      <if test="vcUserPassword != null" >
+        VC_USER_PASSWORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vcUserName != null">
+        #{vcUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="vcUserPassword != null">
+        #{vcUserPassword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.xuz.db1.pojo.User">
+    update T_B01_USER
+    <set >
+      <if test="vcUserName != null">
+        VC_USER_NAME = #{vcUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="vcUserPassword != null">
+        VC_USER_PASSWORD = #{vcUserPassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where L_USER_ID = #{lUserId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.xuz.db1.pojo.User">
+    update T_B01_USER
+    set VC_USER_NAME = #{vcUserName,jdbcType=VARCHAR},
+      VC_USER_PASSWORD = #{vcUserPassword,jdbcType=VARCHAR}
+    where L_USER_ID = #{lUserId,jdbcType=INTEGER}
+  </update>
+</mapper>
